@@ -1,18 +1,21 @@
 class Todo < ApplicationRecord
 
   validates :description, presence: { message: 'is required' }, length: { maximum: 250 }
-  validates :completed_at_before_type_cast,
-    format: { with: /\A\d+-\d{2}-\d{2}\z/ },
-    allow_nil: true
+  validates_datetime :completed_at, allow_blank: true
+  validate :is_completed_set
 
   before_save do
-    if completed_changed?
-      if completed?
-        self.completed_at ||= Time.zone.now
-      else
-        self.completed_at = nil
-      end
+    if completed?
+      self.completed_at ||= Date.today
+    else
+      self.completed_at = nil
     end
   end
 
+  private
+  def is_completed_set
+    if completed_at_changed? && completed_at.present? && !completed?
+      errors.add(:completed, "should be true if completed_at is specified")
+    end
+  end
 end
