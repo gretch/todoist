@@ -1,16 +1,20 @@
 # README
 
 * Ruby version
-ruby 2.5.0
+
+    ruby 2.5.0
 
 * Install dependencies
-bundle install
+
+    bundle install
 
 * Initialize database
-bundle exec rake db:setup
+
+    bundle exec rake db:setup
 
 * To run the test suite
-bundle exec rspec
+
+    bundle exec rspec
 
 * Deployment instructions
 
